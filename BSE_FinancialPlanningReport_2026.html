@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BSE Limited — Financial Planning Report 2025–26</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --ink: #0B0E17;
+  --paper: #F5F0E8;
+  --paper-mid: #EDE7D5;
+  --gold: #B8860B;
+  --gold-bright: #D4A017;
+  --gold-pale: #F5E6B8;
+  --crimson: #8B0000;
+  --emerald: #0D5C3A;
+  --slate: #2C3550;
+  --slate-light: #3D4F72;
+  --silver: #9AA5BB;
+  --mist: #C8D0E0;
+  --up: #1B6B3A;
+  --dn: #8B1A1A;
+  --card-bg: #FDFAF4;
+  --border: rgba(184,134,11,0.25);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'Syne',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  overflow-x:hidden;
+}
+
+/* ─── TICKER ─── */
+.ticker{
+  background:var(--ink);
+  padding:7px 0;
+  overflow:hidden;
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+}
+.ticker-track{
+  display:flex;gap:60px;
+  animation:scroll 35s linear infinite;
+  white-space:nowrap;
+}
+@keyframes scroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.tick{
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:#8899BB;display:flex;gap:8px;align-items:center;
+}
+.tick .sym{color:#D4A017;font-weight:500;}
+.tick .up{color:#4ADE80;}
+.tick .dn{color:#F87171;}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:29px;left:0;right:0;z-index:999;
+  background:rgba(11,14,23,0.96);
+  border-bottom:1px solid rgba(212,160,23,0.2);
+  backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:52px;
+}
+.nav-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px;letter-spacing:2px;color:#D4A017;
+  text-transform:uppercase;
+}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{
+  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  color:#8899BB;text-decoration:none;transition:color .2s;
+}
+.nav-links a:hover{color:#D4A017;}
+.nav-stamp{
+  font-family:'DM Mono',monospace;font-size:10px;
+  color:#D4A017;border:1px solid rgba(212,160,23,0.4);
+  padding:4px 10px;letter-spacing:1px;
+}
+
+/* ─── HERO ─── */
+#hero{
+  min-height:100vh;
+  background:var(--ink);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:130px 80px 80px;
+  position:relative;overflow:hidden;
+}
+.hero-texture{
+  position:absolute;inset:0;
+  background-image:
+    radial-gradient(ellipse at 10% 60%,rgba(180,134,11,0.10) 0%,transparent 55%),
+    radial-gradient(ellipse at 85% 25%,rgba(44,53,80,0.5) 0%,transparent 50%),
+    linear-gradient(160deg,#0B0E17 40%,#141B30 100%);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(44,53,80,0.4) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(44,53,80,0.4) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:linear-gradient(to bottom,transparent 5%,black 25%,black 75%,transparent);
+}
+.hero-eyebrow{
+  font-family:'DM Mono',monospace;font-size:10px;
+  color:#D4A017;letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:20px;display:flex;align-items:center;gap:12px;
+  position:relative;z-index:2;
+}
+.hero-eyebrow::before{content:'';width:36px;height:1px;background:#D4A017;}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(38px,5.5vw,82px);
+  line-height:1.02;font-weight:700;
+  color:#F5F0E8;
+  position:relative;z-index:2;margin-bottom:12px;
+}
+.hero-title span{color:#D4A017;}
+.hero-narrative{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(15px,1.6vw,20px);
+  font-style:italic;color:#8899BB;
+  max-width:680px;line-height:1.75;
+  position:relative;z-index:2;margin-bottom:52px;
+}
+.hero-grid-stats{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:1px;background:rgba(212,160,23,0.15);
+  border:1px solid rgba(212,160,23,0.2);
+  border-radius:4px;overflow:hidden;
+  position:relative;z-index:2;max-width:960px;
+}
+.h-stat{
+  background:rgba(20,27,48,0.9);
+  padding:22px 20px;transition:background .25s;
+}
+.h-stat:hover{background:rgba(30,40,65,0.95);}
+.h-stat-label{
+  font-family:'DM Mono',monospace;font-size:9px;
+  color:#5A6A8A;letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:10px;
+}
+.h-stat-val{
+  font-family:'DM Mono',monospace;
+  font-size:clamp(16px,1.8vw,22px);
+  font-weight:500;color:#F5F0E8;
+  margin-bottom:5px;
+}
+.h-stat-change{font-size:11px;color:#4ADE80;}
+.h-stat-change.red{color:#F87171;}
+
+/* ─── SECTION LAYOUT ─── */
+.section{
+  padding:100px 80px;max-width:1320px;margin:0 auto;
+}
+.section-full{padding:100px 80px;max-width:100%;}
+.section-label{
+  font-family:'DM Mono',monospace;font-size:10px;
+  color:var(--gold);letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:14px;display:flex;align-items:center;gap:10px;
+}
+.section-label::before{content:'';width:28px;height:1px;background:var(--gold);}
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,52px);
+  font-weight:700;line-height:1.1;
+  margin-bottom:14px;
+}
+.section-lead{
+  font-size:15px;color:var(--slate-light);
+  max-width:620px;line-height:1.75;margin-bottom:56px;
+}
+
+/* ─── DIVIDER ─── */
+.divider{
+  height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin:0 80px;
+}
+
+/* ─── STORY OPENING ─── */
+#story{
+  background:var(--ink);
+  padding:100px 80px;
+}
+.story-pull{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(22px,3vw,38px);
+  font-weight:300;font-style:italic;
+  color:#C8D0E0;line-height:1.6;
+  border-left:3px solid var(--gold-bright);
+  padding-left:40px;max-width:860px;margin:0 auto 48px;
+}
+.story-pull strong{color:#D4A017;font-style:normal;}
+.story-body{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;color:#8899BB;line-height:1.85;
+  max-width:860px;margin:0 auto;
+  columns:2;column-gap:48px;
+}
+.story-body p{margin-bottom:20px;break-inside:avoid;}
+
+/* ─── CARDS ─── */
+.card-grid{display:grid;gap:20px;}
+.card-grid-2{grid-template-columns:repeat(2,1fr);}
+.card-grid-3{grid-template-columns:repeat(3,1fr);}
+.card-grid-4{grid-template-columns:repeat(4,1fr);}
+.card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:6px;padding:28px;
+  transition:box-shadow .25s,transform .25s;
+}
+.card:hover{
+  box-shadow:0 8px 32px rgba(184,134,11,0.08);
+  transform:translateY(-2px);
+}
+.card-dark{
+  background:rgba(20,27,48,0.95);
+  border-color:rgba(212,160,23,0.15);
+  color:#F5F0E8;
+}
+.card-icon{
+  font-size:22px;margin-bottom:14px;
+}
+.card-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:600;
+  margin-bottom:10px;
+}
+.card-body{
+  font-size:13px;color:var(--slate-light);line-height:1.7;
+}
+.card-dark .card-body{color:#8899BB;}
+
+/* ─── KPI STRIP ─── */
+.kpi-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);
+  border-radius:6px;overflow:hidden;
+  margin-bottom:48px;
+}
+.kpi{
+  background:var(--card-bg);padding:28px 24px;
+  border-right:1px solid var(--border);
+}
+.kpi:last-child{border-right:none;}
+.kpi-label{
+  font-family:'DM Mono',monospace;font-size:9px;
+  color:var(--silver);letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:10px;
+}
+.kpi-val{
+  font-family:'DM Mono',monospace;
+  font-size:clamp(18px,2vw,26px);
+  font-weight:500;color:var(--ink);margin-bottom:6px;
+}
+.kpi-sub{font-size:12px;color:var(--up);font-weight:500;}
+.kpi-sub.red{color:var(--dn);}
+
+/* ─── TABLE ─── */
+.data-table{width:100%;border-collapse:collapse;margin-bottom:32px;}
+.data-table th{
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--silver);padding:14px 18px;
+  border-bottom:1px solid var(--border);text-align:left;
+}
+.data-table td{
+  font-size:13px;padding:14px 18px;
+  border-bottom:1px solid rgba(184,134,11,0.08);
+  color:var(--slate);
+}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table td.num{
+  font-family:'DM Mono',monospace;font-size:13px;text-align:right;
+}
+.data-table td.up{color:var(--up);font-weight:600;}
+.data-table td.highlight{color:var(--gold);font-weight:600;}
+.data-table th:not(:first-child){text-align:right;}
+.table-card{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:6px;overflow:hidden;
+}
+.table-header{
+  padding:20px 24px;border-bottom:1px solid var(--border);
+  font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;
+  display:flex;align-items:center;gap:10px;
+}
+
+/* ─── CHART WRAPPER ─── */
+.chart-wrap{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:6px;padding:24px;
+}
+.chart-wrap canvas{max-height:280px;}
+.chart-title{
+  font-family:'DM Mono',monospace;font-size:10px;
+  color:var(--silver);letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:18px;
+}
+
+/* ─── PROGRESS BARS ─── */
+.progress-row{margin-bottom:16px;}
+.progress-label{
+  display:flex;justify-content:space-between;
+  font-size:12px;color:var(--slate);margin-bottom:6px;
+}
+.progress-track{
+  height:6px;background:var(--paper-mid);
+  border-radius:3px;overflow:hidden;
+}
+.progress-fill{
+  height:100%;border-radius:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-bright));
+  transition:width 1.2s cubic-bezier(.4,0,.2,1);
+  width:0;
+}
+.progress-fill.blue{background:linear-gradient(90deg,#2C3550,#3D6AB0);}
+
+/* ─── ECOSYSTEM ─── */
+.eco-center{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  background:var(--ink);color:#F5F0E8;
+  border:2px solid var(--gold);
+  border-radius:50%;width:140px;height:140px;
+  justify-content:center;text-align:center;
+  margin:0 auto;padding:20px;
+  font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;
+}
+.eco-ring{
+  display:flex;justify-content:space-around;flex-wrap:wrap;
+  gap:12px;margin-top:32px;
+}
+.eco-node{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:6px;padding:14px 18px;
+  text-align:center;font-size:12px;color:var(--slate);
+  flex:1;min-width:120px;max-width:160px;
+}
+.eco-node .eco-icon{font-size:20px;margin-bottom:6px;}
+.eco-node strong{display:block;font-size:11px;color:var(--ink);margin-bottom:3px;}
+
+/* ─── HIGHLIGHT BOX ─── */
+.highlight-box{
+  background:linear-gradient(135deg,rgba(180,134,11,0.08),rgba(180,134,11,0.02));
+  border:1px solid rgba(180,134,11,0.25);
+  border-left:4px solid var(--gold);
+  border-radius:0 6px 6px 0;
+  padding:20px 24px;margin-bottom:20px;
+}
+.highlight-box .hb-label{
+  font-family:'DM Mono',monospace;font-size:9px;
+  color:var(--gold);letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.highlight-box .hb-text{font-size:14px;color:var(--slate);line-height:1.7;}
+
+/* ─── VERDICT ─── */
+#verdict{
+  background:var(--ink);padding:100px 80px;
+}
+.verdict-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(212,160,23,0.12);
+  border:1px solid rgba(212,160,23,0.35);
+  padding:10px 22px;border-radius:4px;
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:#D4A017;letter-spacing:1.5px;margin-bottom:32px;
+}
+.verdict-main{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(36px,5vw,72px);
+  font-weight:700;color:#F5F0E8;
+  line-height:1.05;margin-bottom:24px;
+}
+.verdict-main .accent{color:#D4A017;}
+.verdict-sub{
+  font-size:15px;color:#8899BB;max-width:560px;line-height:1.8;
+  margin-bottom:52px;
+}
+.verdict-metrics{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:1px;background:rgba(212,160,23,0.12);
+  border:1px solid rgba(212,160,23,0.15);
+  border-radius:4px;overflow:hidden;
+  max-width:900px;
+}
+.vm{
+  background:rgba(20,27,48,0.95);padding:24px 20px;
+}
+.vm-label{
+  font-family:'DM Mono',monospace;font-size:9px;
+  color:#5A6A8A;letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:10px;
+}
+.vm-val{
+  font-family:'DM Mono',monospace;font-size:18px;
+  font-weight:500;color:#F5F0E8;
+}
+
+/* ─── RISK MATRIX ─── */
+.risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px;}
+.risk-card{
+  border-radius:6px;padding:20px;
+  border:1px solid transparent;
+}
+.risk-card.high{background:rgba(139,0,0,0.06);border-color:rgba(139,0,0,0.2);}
+.risk-card.medium{background:rgba(180,134,11,0.06);border-color:rgba(180,134,11,0.2);}
+.risk-card.low{background:rgba(13,92,58,0.06);border-color:rgba(13,92,58,0.2);}
+.risk-label{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.risk-card.high .risk-label{color:var(--crimson);}
+.risk-card.medium .risk-label{color:var(--gold);}
+.risk-card.low .risk-label{color:var(--emerald);}
+.risk-title{font-size:14px;font-weight:600;margin-bottom:6px;}
+.risk-desc{font-size:12px;color:var(--slate-light);line-height:1.6;}
+
+/* ─── SEBI / REGULATORY ─── */
+.reg-flow{
+  display:flex;align-items:center;justify-content:center;
+  gap:0;flex-wrap:wrap;margin:48px 0;
+}
+.reg-node{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:6px;padding:18px 22px;text-align:center;
+  min-width:130px;
+}
+.reg-node .rn-icon{font-size:24px;margin-bottom:8px;}
+.reg-node .rn-label{
+  font-family:'DM Mono',monospace;font-size:9px;
+  color:var(--silver);letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:4px;
+}
+.reg-node .rn-name{font-size:13px;font-weight:600;color:var(--ink);}
+.reg-arrow{
+  font-size:20px;color:var(--gold);padding:0 8px;
+}
+
+/* ─── FOOTER ─── */
+footer{
+  background:var(--ink);
+  border-top:1px solid rgba(212,160,23,0.2);
+  padding:48px 80px;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:24px;
+}
+.foot-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;color:#D4A017;letter-spacing:2px;
+}
+.foot-meta{
+  font-family:'DM Mono',monospace;font-size:10px;
+  color:#5A6A8A;margin-top:8px;line-height:1.7;
+}
+.foot-team{text-align:center;}
+.foot-team .ft-label{font-size:10px;color:#5A6A8A;margin-bottom:4px;}
+.foot-team .ft-names{font-family:'Cormorant Garamond',serif;font-size:15px;color:#D4A017;}
+.foot-team .ft-ids{font-family:'DM Mono',monospace;font-size:9px;color:#5A6A8A;margin-top:4px;}
+.disclaimer{font-size:10px;color:#3A4A5A;max-width:280px;line-height:1.6;}
+
+/* ─── ATH BADGE ─── */
+.ath-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(27,107,58,0.1);border:1px solid rgba(27,107,58,0.3);
+  padding:6px 14px;border-radius:3px;
+  font-family:'DM Mono',monospace;font-size:11px;color:#2D9A5C;
+  margin-bottom:24px;
+}
+
+/* ─── FADE IN ─── */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+
+/* ─── SCROLL INDICATOR ─── */
+.scroll-hint{
+  position:absolute;bottom:40px;left:80px;
+  font-family:'DM Mono',monospace;font-size:9px;
+  color:#3A4A5A;letter-spacing:2px;text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;z-index:2;
+}
+.scroll-hint::after{
+  content:'';display:block;width:32px;height:1px;
+  background:#3A4A5A;
+  animation:scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine{0%,100%{width:32px;opacity:0.5;}50%{width:56px;opacity:1;}}
+
+/* ─── SECTION COLORS ─── */
+#overview{background:var(--paper);}
+#funding{background:var(--paper-mid);}
+#services{background:var(--paper);}
+#regulatory{background:var(--paper-mid);}
+#gap{background:var(--paper);}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">BSE Limited ◆ Financial Planning Report</div>
+  <ul class="nav-links">
+    <li><a href="#story">Opening</a></li>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#funding">Funding</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#regulatory">Regulatory</a></li>
+    <li><a href="#gap">Gap Analysis</a></li>
+  </ul>
+  <div class="nav-stamp">FY 2025–26 LIVE</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-texture"></div>
+  <div class="hero-grid"></div>
+  <div style="position:relative;z-index:2;">
+    <div class="hero-eyebrow">Senior Equity Research ◆ Financial Planning Report ◆ April 2026</div>
+    <h1 class="hero-title">BSE Limited<br><span>Equity Research &amp;<br>Financial Planning</span></h1>
+    <p class="hero-narrative">
+      While global markets reeled from geopolitical tremors and restrictive monetary cycles,
+      Asia's oldest exchange stood taller than ever — charting fresh all-time highs and
+      delivering shareholders a return that eclipses the benchmark by <em>73 percentage points</em>.
+    </p>
+    <div class="hero-grid-stats">
+      <div class="h-stat">
+        <div class="h-stat-label">Current Price (17 Apr 2026)</div>
+        <div class="h-stat-val">₹3,531</div>
+        <div class="h-stat-change">+2.46% today</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-label">All-Time High</div>
+        <div class="h-stat-val">₹3,469</div>
+        <div class="h-stat-change">17 Apr 2026</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-label">Market Cap</div>
+        <div class="h-stat-val">₹1.43L Cr</div>
+        <div class="h-stat-change">+78.6% YoY</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-label">1-Year Return</div>
+        <div class="h-stat-val">+74%</div>
+        <div class="h-stat-change">vs Sensex –0.5%</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-label">TTM EPS</div>
+        <div class="h-stat-val">₹52.82</div>
+        <div class="h-stat-change">12 consec. ↑ quarters</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll to explore</div>
+</section>
+
+<!-- STORY OPENING -->
+<section id="story">
+  <blockquote class="story-pull fade-in">
+    "While global markets faced volatility driven by geopolitical tensions and tightening monetary cycles,
+    <strong>one institution quietly surged to record highs</strong> — not despite the chaos, but because of its
+    foundational role in India's capital architecture."
+  </blockquote>
+  <div class="story-body fade-in">
+    <p>The year 2025–26 will be remembered as the year BSE Limited shed its underdog tag and asserted itself as India's pre-eminent exchange story. As the U.S. Federal Reserve navigated a delicate pivot, as Middle-East tensions disrupted shipping lanes, and as Indian retail investors poured ₹23,000+ crore per month into equity mutual funds, BSE sat at the centre of it all — processing, listing, and enabling every single transaction.</p>
+    <p>The numbers tell a story that few analysts anticipated. Revenue crossed ₹4,100 crore on a trailing basis. Net profit hit ₹2,185 crore. The StAR MF platform, processing 21+ crore transactions a quarter with a market share exceeding 89%, became the quiet engine beneath a demat revolution. And with SEBI approving BSE to launch derivative contracts on the BSE Focused IT Index in April 2026, the exchange's derivative momentum shows no signs of plateauing.</p>
+    <p>This report dissects BSE's financial architecture, funding strategy, ecosystem, regulatory landscape, and the competitive pressures that will define its next chapter. It is written not as a retrospective, but as a forward-looking instrument for investors who need to understand where this institution is headed — and why it might be the defining equity story of India's capital markets decade.</p>
+    <p>From Dalal Street to GIFT City, from StAR MF to India INX, the breadth of BSE's revenue streams is matched only by the depth of its regulatory moat. But moats can be eroded. NSE's dominance in derivatives remains formidable. Fintech challengers are reshaping how retail investors engage. The question is not whether BSE is valuable — it manifestly is — but whether its current premium of 27× book value can be sustained as earnings continue to compound.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VERTICAL 1: COMPANY OVERVIEW -->
+<section id="overview" class="section">
+  <div class="section-label">Vertical 01 — Company Overview</div>
+  <h2 class="section-title">Financial Profile<br>&amp; Market Position</h2>
+  <p class="section-lead">BSE Limited, established in 1875, is Asia's oldest and the world's largest stock exchange by number of listed companies. As of April 2026, it trades at all-time highs and has delivered over 2,100% returns in three years.</p>
+
+  <div class="ath-badge fade-in">🏆 Fresh All-Time High: ₹3,468.80 — 17 April 2026</div>
+
+  <!-- KPI STRIP -->
+  <div class="kpi-strip fade-in">
+    <div class="kpi">
+      <div class="kpi-label">Market Cap (Apr 2026)</div>
+      <div class="kpi-val">₹1,43,838 Cr</div>
+      <div class="kpi-sub">↑ 78.6% in 1 year</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Revenue (TTM)</div>
+      <div class="kpi-val">₹4,117 Cr</div>
+      <div class="kpi-sub">↑ ~59% YoY Q3 FY26</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Net Profit (TTM)</div>
+      <div class="kpi-val">₹2,185 Cr</div>
+      <div class="kpi-sub">↑ 173% YoY Q3 FY26</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">EPS (TTM)</div>
+      <div class="kpi-val">₹52.82</div>
+      <div class="kpi-sub">↑ 12 consecutive quarters</div>
+    </div>
+  </div>
+
+  <!-- FINANCIAL SUMMARY TABLE -->
+  <div class="table-card fade-in" style="margin-bottom:40px;">
+    <div class="table-header">📊 Financial Summary — FY22 to FY26E</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>FY 2021–22</th>
+          <th>FY 2022–23</th>
+          <th>FY 2023–24</th>
+          <th>FY 2024–25</th>
+          <th>FY 2025–26 (9M)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Revenue (₹ Cr)</strong></td>
+          <td class="num">1,006</td>
+          <td class="num">1,253</td>
+          <td class="num">1,700</td>
+          <td class="num">2,609</td>
+          <td class="num highlight">3,236*</td>
+        </tr>
+        <tr>
+          <td><strong>EBITDA (₹ Cr)</strong></td>
+          <td class="num">220</td>
+          <td class="num">310</td>
+          <td class="num">530</td>
+          <td class="num">980</td>
+          <td class="num highlight">~1,850*</td>
+        </tr>
+        <tr>
+          <td><strong>Net Profit / PAT (₹ Cr)</strong></td>
+          <td class="num">105</td>
+          <td class="num">188</td>
+          <td class="num">330</td>
+          <td class="num">820</td>
+          <td class="num highlight">1,234*</td>
+        </tr>
+        <tr>
+          <td><strong>EPS (₹)</strong></td>
+          <td class="num">8.60</td>
+          <td class="num">15.40</td>
+          <td class="num">27.10</td>
+          <td class="num">67.20</td>
+          <td class="num highlight">52.82 (TTM)</td>
+        </tr>
+        <tr>
+          <td><strong>EBITDA Margin %</strong></td>
+          <td class="num">21.9%</td>
+          <td class="num">24.7%</td>
+          <td class="num">31.2%</td>
+          <td class="num">37.6%</td>
+          <td class="num highlight up">58.2%</td>
+        </tr>
+        <tr>
+          <td><strong>PAT Margin %</strong></td>
+          <td class="num">10.4%</td>
+          <td class="num">15.0%</td>
+          <td class="num">19.4%</td>
+          <td class="num">31.4%</td>
+          <td class="num highlight up">48.2%</td>
+        </tr>
+        <tr>
+          <td><strong>ROE %</strong></td>
+          <td class="num">7.0%</td>
+          <td class="num">12.0%</td>
+          <td class="num">18.0%</td>
+          <td class="num">28.0%</td>
+          <td class="num highlight up">34.6%</td>
+        </tr>
+        <tr>
+          <td><strong>P/E Ratio</strong></td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">~42×</td>
+          <td class="num">~72×</td>
+          <td class="num highlight">~67×</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="padding:12px 18px;font-family:'DM Mono',monospace;font-size:9px;color:var(--silver);border-top:1px solid var(--border);">
+      * FY26 figures: 9-month actuals (Apr–Dec 2025) per Q3 FY26 results. TTM EPS as of Investing.com (Apr 2026). Revenue and PAT sourced from Kotak Neo, INDmoney, Screener.in. All figures in ₹ Crore unless noted.
+    </div>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="card-grid card-grid-3 fade-in" style="margin-bottom:40px;">
+    <div class="chart-wrap">
+      <div class="chart-title">📈 Revenue Growth (₹ Cr)</div>
+      <canvas id="revenueChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">💰 PAT &amp; EBITDA (₹ Cr)</div>
+      <canvas id="patChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">📊 Margin Expansion &amp; ROE %</div>
+      <canvas id="marginChart"></canvas>
+    </div>
+  </div>
+
+  <!-- STOCK PRICE TREND -->
+  <div class="chart-wrap fade-in" style="margin-bottom:40px;">
+    <div class="chart-title">📈 BSE Ltd — Stock Price Trend (52-Week Journey to ATH)</div>
+    <canvas id="stockChart" style="max-height:220px;"></canvas>
+    <div style="margin-top:12px;font-family:'DM Mono',monospace;font-size:9px;color:var(--silver);">
+      52-Week Low: ₹1,860.67 → All-Time High: ₹3,468.80 (17 Apr 2026) — +86.5% over 52 weeks. Price simulated based on disclosed high/low data points.
+    </div>
+  </div>
+
+  <!-- REVENUE BREAKDOWN + MARKET SHARE -->
+  <div class="card-grid card-grid-2 fade-in">
+    <div class="chart-wrap">
+      <div class="chart-title">🍩 Revenue Mix (FY26 Estimate)</div>
+      <canvas id="revenueBreakChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">⚖️ BSE vs NSE Market Share</div>
+      <canvas id="mktShareChart"></canvas>
+    </div>
+  </div>
+
+  <div class="highlight-box fade-in" style="margin-top:40px;">
+    <div class="hb-label">💡 Analyst Insight</div>
+    <div class="hb-text">BSE's Q3 FY26 marked the <strong>twelfth consecutive quarter of positive growth</strong>, with revenue reaching ₹1,244 Cr (record) and PBDIT of ₹732 Cr. Net profit soared 173% YoY to ₹601 Cr. The EBITDA margin of 58%+ is approaching exchange-class levels globally (Nasdaq: ~52%, HKEX: ~54%), reflecting extreme operating leverage as transaction volumes scale on near-fixed cost infrastructure.</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VERTICAL 2: FUNDING STRATEGY -->
+<section id="funding" class="section">
+  <div class="section-label">Vertical 02 — Sources of Finance</div>
+  <h2 class="section-title">Funding Strategy<br>&amp; Capital Structure</h2>
+  <p class="section-lead">BSE operates a near-debt-free balance sheet with a fortress-grade capital position, deploying internal accruals and treasury income as its primary capital flywheel.</p>
+
+  <div class="card-grid card-grid-3 fade-in" style="margin-bottom:40px;">
+    <div class="card">
+      <div class="card-icon">🏛️</div>
+      <div class="card-title">Internal Accruals</div>
+      <div class="card-body">BSE's primary financing engine. With PAT margins crossing 48% in FY26, the exchange self-funds expansion into derivatives, technology, and international markets without diluting equity or raising debt.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💎</div>
+      <div class="card-title">Treasury & Investments</div>
+      <div class="card-body">BSE holds substantial treasury assets — primarily government securities, FDs, and mutual fund units. Treasury income contributes ~12% of blended revenue, providing a stable cash cushion that buffers cyclical volume drops.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔗</div>
+      <div class="card-title">Regulatory Corpus & Settlement Reserves</div>
+      <div class="card-body">As a market infrastructure institution, BSE maintains Investor Protection Fund, Settlement Guarantee Fund, and Core SGF — mandated reserves that also earn returns, reinforcing the balance sheet without external capital cost.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌐</div>
+      <div class="card-title">GIFT City — India INX</div>
+      <div class="card-body">BSE's international arm at GIFT IFSC provides a strategic growth runway. India INX operates 22 hours a day, serving NRIs and FIIs. Capital deployed here is small relative to returns, amplifying ROI on existing infrastructure.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📡</div>
+      <div class="card-title">Technology Capex (Selective)</div>
+      <div class="card-body">BSE's BOLT+ trading engine (6 microsecond latency) and co-location facilities require periodic capex. This is funded entirely through operating cash flows — no external debt has been raised for tech upgrades in recent cycles.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📤</div>
+      <div class="card-title">Dividend Policy (Equity Returns)</div>
+      <div class="card-body">BSE returned ₹5/share in dividend for Q4 FY25. With a low payout ratio relative to earnings, retained capital is deployed into expansion while shareholders also benefit from 74%+ price appreciation YoY.</div>
+    </div>
+  </div>
+
+  <!-- FUNDING STRUCTURE VISUAL -->
+  <div class="table-card fade-in" style="margin-bottom:40px;">
+    <div class="table-header">🏗️ Capital Allocation Framework (FY26)</div>
+    <div style="padding:28px;">
+      <div class="progress-row">
+        <div class="progress-label"><span>Internal Accruals / Operating Cash Flow</span><span>~55%</span></div>
+        <div class="progress-track"><div class="progress-fill" data-width="55"></div></div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-label"><span>Treasury & Investment Income</span><span>~18%</span></div>
+        <div class="progress-track"><div class="progress-fill" data-width="18"></div></div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-label"><span>Regulatory Corpus Earnings</span><span>~15%</span></div>
+        <div class="progress-track"><div class="progress-fill blue" data-width="15"></div></div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-label"><span>Co-location & Data Licensing</span><span>~8%</span></div>
+        <div class="progress-track"><div class="progress-fill blue" data-width="8"></div></div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-label"><span>India INX International Revenue</span><span>~4%</span></div>
+        <div class="progress-track"><div class="progress-fill" data-width="4"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box fade-in">
+    <div class="hb-label">⚠️ Key Funding Risk</div>
+    <div class="hb-text">BSE's funding is volume-sensitive. During market downturns (e.g., Feb–Mar 2026 correction when the stock fell ~15%), transaction fee revenue compresses rapidly. However, the <strong>StAR MF platform's SIP-driven revenue (~89% market share, 21 Cr transactions/quarter)</strong> acts as a counter-cyclical buffer since SIPs continue regardless of market direction.</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VERTICAL 3: FINANCIAL SERVICES & SYSTEMS -->
+<section id="services" class="section">
+  <div class="section-label">Vertical 03 — Financial Systems &amp; Services</div>
+  <h2 class="section-title">The BSE<br>Service Ecosystem</h2>
+  <p class="section-lead">BSE operates one of the most diversified service architectures of any exchange globally — from microsecond equities trading to rural mutual fund distribution, from SME listings to international derivatives.</p>
+
+  <!-- ECOSYSTEM VISUAL -->
+  <div class="table-card fade-in" style="margin-bottom:40px;padding:48px 40px;">
+    <div style="text-align:center;margin-bottom:32px;">
+      <div style="display:inline-block;background:var(--ink);color:#D4A017;border:2px solid var(--gold);border-radius:50%;width:150px;height:150px;display:inline-flex;align-items:center;justify-content:center;flex-direction:column;">
+        <div style="font-size:28px;">🏦</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:#D4A017;margin-top:6px;">BSE Ltd</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:#5A6A8A;letter-spacing:1px;margin-top:3px;">EST. 1875</div>
+      </div>
+    </div>
+    <div class="eco-ring">
+      <div class="eco-node"><div class="eco-icon">📈</div><strong>Cash Equities</strong>~40% mkt share vs NSE</div>
+      <div class="eco-node"><div class="eco-icon">🎯</div><strong>Index Derivatives</strong>SENSEX Options — Record ADT</div>
+      <div class="eco-node"><div class="eco-icon">💹</div><strong>StAR MF</strong>89% share · 21 Cr txns/qtr</div>
+      <div class="eco-node"><div class="eco-icon">🏭</div><strong>BSE SME</strong>India's #1 SME platform</div>
+      <div class="eco-node"><div class="eco-icon">🌐</div><strong>India INX</strong>GIFT IFSC · 22 hrs/day</div>
+      <div class="eco-node"><div class="eco-icon">📜</div><strong>BSE Bond</strong>₹2.09L Cr raised · 530+ issues</div>
+      <div class="eco-node"><div class="eco-icon">📦</div><strong>Co-location</strong>6 microsec BOLT+ latency</div>
+      <div class="eco-node"><div class="eco-icon">📊</div><strong>Data &amp; Indices</strong>S&P BSE SENSEX + 100+ indices</div>
+    </div>
+  </div>
+
+  <div class="card-grid card-grid-2 fade-in">
+    <div class="table-card">
+      <div class="table-header">⚡ Key Services — Operational KPIs (FY26)</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>KPI</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>StAR MF Transactions (Q3 FY26)</td><td class="num">21.7 Cr</td><td class="num up">+24% YoY</td></tr>
+          <tr><td>StAR MF Market Share</td><td class="num">89%</td><td class="num up">Dominant</td></tr>
+          <tr><td>Record January Transactions</td><td class="num">7.97 Cr</td><td class="num highlight">Single-Month Record</td></tr>
+          <tr><td>Index Deriv. Premium ADT (Q3)</td><td class="num">₹19,459 Cr</td><td class="num up">All-Time Record</td></tr>
+          <tr><td>Cash Mkt Volume (Q3)</td><td class="num">₹7,645 Cr</td><td class="num up">Growing</td></tr>
+          <tr><td>Listed Companies</td><td class="num">5,300+</td><td class="num">World's Largest</td></tr>
+          <tr><td>BOLT+ Trade Latency</td><td class="num">6 microsec</td><td class="num highlight">Fastest Globally</td></tr>
+          <tr><td>India INX Daily Hours</td><td class="num">22 hrs</td><td class="num">Near 24×5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-grid" style="gap:16px;">
+      <div class="card">
+        <div class="card-icon">🧮</div>
+        <div class="card-title">BSE StAR MF — The Quiet Giant</div>
+        <div class="card-body">With 89% market share and processing 7.97 crore transactions in a single month (January 2026), StAR MF is BSE's most defensible revenue stream. Revenue from this platform grew 14% YoY to ₹72.5 Cr in Q3 FY26 alone. As India's SIP count crosses 10 crore, this platform's volume trajectory is structurally assured.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔥</div>
+        <div class="card-title">Sensex Derivatives — The New Growth Engine</div>
+        <div class="card-body">SEBI's 2024 circular rationalising weekly index expiries drove massive volumes to BSE's SENSEX options. Average Daily Turnover in index derivatives hit ₹19,459 Cr in Q3 FY26 — a record — dramatically reshaping BSE's revenue mix from MF-heavy to a balanced derivatives + MF model.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VERTICAL 4: REGULATORY -->
+<section id="regulatory" class="section">
+  <div class="section-label">Vertical 04 — Regulatory Institutions</div>
+  <h2 class="section-title">The Regulatory<br>Architecture</h2>
+  <p class="section-lead">BSE's competitive moat is inseparable from the regulatory framework in which it operates. SEBI and RBI don't just constrain BSE — they define the conditions that make BSE's business model durable.</p>
+
+  <!-- REGULATORY FLOW -->
+  <div class="reg-flow fade-in">
+    <div class="reg-node">
+      <div class="rn-icon">🏛️</div>
+      <div class="rn-label">Ministry of Finance</div>
+      <div class="rn-name">Govt of India</div>
+    </div>
+    <div class="reg-arrow">→</div>
+    <div class="reg-node">
+      <div class="rn-icon">📋</div>
+      <div class="rn-label">Primary Regulator</div>
+      <div class="rn-name">SEBI</div>
+    </div>
+    <div class="reg-arrow">→</div>
+    <div class="reg-node">
+      <div class="rn-icon">🏦</div>
+      <div class="rn-label">Payment Systems</div>
+      <div class="rn-name">RBI</div>
+    </div>
+    <div class="reg-arrow">→</div>
+    <div class="reg-node">
+      <div class="rn-icon">📊</div>
+      <div class="rn-label">Stock Exchange</div>
+      <div class="rn-name">BSE Ltd</div>
+    </div>
+    <div class="reg-arrow">→</div>
+    <div class="reg-node">
+      <div class="rn-icon">🏧</div>
+      <div class="rn-label">Depository</div>
+      <div class="rn-name">CDSL (BSE Assoc.)</div>
+    </div>
+    <div class="reg-arrow">→</div>
+    <div class="reg-node">
+      <div class="rn-icon">👥</div>
+      <div class="rn-label">End Users</div>
+      <div class="rn-name">10 Cr+ Investors</div>
+    </div>
+  </div>
+
+  <div class="card-grid card-grid-2 fade-in" style="margin-top:40px;margin-bottom:40px;">
+    <div class="card">
+      <div class="card-icon">📋</div>
+      <div class="card-title">SEBI — The Architect of BSE's Growth</div>
+      <div class="card-body">
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:10px;">
+          <li>📌 <strong>Index Expiry Rationalisation (2024):</strong> SEBI's circular limiting weekly expiries to one per exchange redirected billions of NIFTY traders toward SENSEX options on BSE — a regulatory gift worth ₹10,000+ Cr in incremental ADT.</li>
+          <li>📌 <strong>SEBI Approval: Focused IT Index Derivatives (Apr 2026):</strong> BSE received fresh SEBI approval on 9 April 2026 to launch derivatives on the BSE Focused IT Index — another revenue expansion lever.</li>
+          <li>📌 <strong>SME & Mainboard Listing Norms:</strong> SEBI's progressive listing framework has driven BSE SME to 250+ listings, creating listing fee and annual subscription revenue.</li>
+          <li>📌 <strong>Investor Protection Mandate:</strong> SEBI-mandated Investor Protection Fund and Investor Service Centre requirements, while cost-bearing, build systemic trust that underpins market volumes.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏦</div>
+      <div class="card-title">RBI — The Liquidity Backbone</div>
+      <div class="card-body">
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:10px;">
+          <li>📌 <strong>Settlement Infrastructure:</strong> BSE Clearing Corporation operates within RBI's RTGS/NEFT payment rails. RBI's oversight of settlement systems ensures BSE's clearing never faces systemic liquidity risk.</li>
+          <li>📌 <strong>Monetary Policy → Volume Link:</strong> RBI's rate trajectory directly impacts market sentiment and, by extension, BSE's transaction volumes. Falling rates in FY26 are a tailwind for equity participation.</li>
+          <li>📌 <strong>GIFT City Regulations:</strong> RBI and IFSCA jointly regulate India INX — BSE's international arm — enabling it to settle in foreign currencies and attract global participants.</li>
+          <li>📌 <strong>Treasury Investment Guidelines:</strong> BSE's ₹3,000+ Cr treasury is invested per RBI-approved instruments. Current rate environment has enhanced treasury yield, boosting other income.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-card fade-in">
+    <div class="table-header">🔗 Regulation → Investor Trust → Volume → Revenue: The Value Chain</div>
+    <table class="data-table">
+      <thead><tr><th>Regulatory Action</th><th>Impact on BSE</th><th>Revenue Effect</th></tr></thead>
+      <tbody>
+        <tr><td>SEBI Index Expiry Rule (2024)</td><td>SENSEX options volumes surge</td><td class="num up">+₹10,000 Cr+ ADT</td></tr>
+        <tr><td>SEBI Demat Mandate for MFs</td><td>StAR MF adoption accelerates</td><td class="num up">89% market share</td></tr>
+        <tr><td>SEBI SME listing framework</td><td>250+ SME listings on BSE</td><td class="num up">Listing + Annual fees</td></tr>
+        <tr><td>RBI rate easing signals</td><td>Retail equity participation rises</td><td class="num up">Cash mkt volumes ↑</td></tr>
+        <tr><td>IFSCA GIFT City expansion</td><td>India INX 22hr trading</td><td class="num up">International revenue</td></tr>
+        <tr><td>SEBI Focus IT Index approval (Apr 2026)</td><td>New derivative product line</td><td class="num highlight">Near-term catalyst</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VERTICAL 5: GAP ANALYSIS -->
+<section id="gap" class="section">
+  <div class="section-label">Vertical 05 — Gap Analysis &amp; Recommendations</div>
+  <h2 class="section-title">Where BSE Must<br>Go Next</h2>
+  <p class="section-lead">Even as BSE surges to all-time highs, gaps in market structure, competitive positioning, and technology adoption create both risks and opportunities that will define its next growth phase.</p>
+
+  <!-- RISK MATRIX -->
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:20px;color:var(--ink);">⚠️ Risk Assessment Matrix</h3>
+  <div class="risk-grid fade-in">
+    <div class="risk-card high">
+      <div class="risk-label">High Risk</div>
+      <div class="risk-title">NSE Derivatives Dominance</div>
+      <div class="risk-desc">NSE controls ~94% of F&O volumes. If SEBI reverses the expiry rationalisation or re-opens weekly NIFTY expiries, BSE's derivative windfall could reverse sharply and Q3's record ADT may prove a peak.</div>
+    </div>
+    <div class="risk-card high">
+      <div class="risk-label">High Risk</div>
+      <div class="risk-title">Regulatory Policy Reversal</div>
+      <div class="risk-desc">BSE's derivatives boom is largely SEBI-policy driven. The 2024 index expiry circular — a regulatory gift — could be modified, reinstating competition. Over-reliance on a single regulatory tailwind is a concentration risk.</div>
+    </div>
+    <div class="risk-card medium">
+      <div class="risk-label">Medium Risk</div>
+      <div class="risk-title">Valuation Premium Compression</div>
+      <div class="risk-desc">At 67× trailing P/E and 27× P/B, the stock prices in exceptional future growth. Any miss in earnings or slowdown in derivative volumes could compress multiples rapidly, given the elevated expectations embedded in the price.</div>
+    </div>
+    <div class="risk-card medium">
+      <div class="risk-label">Medium Risk</div>
+      <div class="risk-title">Fintech Platform Disruption</div>
+      <div class="risk-desc">Zerodha, Groww, and Upstox are increasingly vertically integrating — building their own clearing, advisory, and MF distribution layers. While they list on BSE/NSE, a future regulatory shift enabling exchange-bypassing could erode volumes.</div>
+    </div>
+    <div class="risk-card low">
+      <div class="risk-label">Low Risk</div>
+      <div class="risk-title">Equity Market Correction</div>
+      <div class="risk-desc">BSE's revenue is market-volume sensitive. However, StAR MF's SIP-driven, counter-cyclical revenue (~₹72+ Cr/quarter) and treasury income provide resilience. A 20% market correction would reduce but not destroy profitability.</div>
+    </div>
+    <div class="risk-card low">
+      <div class="risk-label">Low Risk</div>
+      <div class="risk-title">Technology Obsolescence</div>
+      <div class="risk-desc">BSE's BOLT+ at 6 microseconds leads globally. With continued capex into algo-trading infrastructure and AI-powered surveillance (SEBI mandate), technology risk is well-managed. Cloud migration is ongoing via BSE Tech.</div>
+    </div>
+  </div>
+
+  <!-- GAP TABLE -->
+  <div class="table-card fade-in" style="margin-bottom:40px;">
+    <div class="table-header">📋 Gap Analysis — BSE vs Best-in-Class Benchmarks</div>
+    <table class="data-table">
+      <thead><tr><th>Dimension</th><th>BSE Current State</th><th>Gap / Benchmark</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>F&O Market Share</td>
+          <td>~6% (growing rapidly)</td>
+          <td class="num">NSE: 94% — structural dominance</td>
+          <td class="num highlight">High</td>
+        </tr>
+        <tr>
+          <td>Cash Equity Share</td>
+          <td>~40%</td>
+          <td class="num">Parity competition vs NSE 60%</td>
+          <td class="num">Medium</td>
+        </tr>
+        <tr>
+          <td>Institutional Trading Volume</td>
+          <td>Lower than NSE for FII flows</td>
+          <td class="num">FIIs prefer NSE liquidity pool</td>
+          <td class="num highlight">High</td>
+        </tr>
+        <tr>
+          <td>International Revenue %</td>
+          <td>~4-5% via India INX</td>
+          <td class="num">SGX: 35% · HKEX: 30%</td>
+          <td class="num">Medium</td>
+        </tr>
+        <tr>
+          <td>ESG/Sustainability Products</td>
+          <td>S&P BSE ESG indices launched</td>
+          <td class="num">No dedicated ESG derivatives yet</td>
+          <td class="num">Low</td>
+        </tr>
+        <tr>
+          <td>Algorithmic Trading Infrastructure</td>
+          <td>BOLT+ (6 microsec) — world-class</td>
+          <td class="num">Matched globally</td>
+          <td class="num up">No Gap</td>
+        </tr>
+        <tr>
+          <td>Retail Investor Outreach (Tier 2/3)</td>
+          <td>StAR MF regional reach growing</td>
+          <td class="num">200M unbanked investor gap</td>
+          <td class="num">Medium</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- STRATEGIC RECOMMENDATIONS -->
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:20px;color:var(--ink);">💡 Strategic Recommendations — Analyst View</h3>
+  <div class="card-grid card-grid-2 fade-in">
+    <div class="highlight-box">
+      <div class="hb-label">📈 Recommendation 01 — Derivatives Deepening</div>
+      <div class="hb-text">BSE must aggressively expand its product suite beyond SENSEX Index Options. The April 2026 SEBI approval for BSE Focused IT Index derivatives is a start. Launching sector-specific derivatives (Bank, Auto, FMCG) would diversify ADT concentration risk and attract institutional algos currently routing to NSE.</div>
+    </div>
+    <div class="highlight-box">
+      <div class="hb-label">🌐 Recommendation 02 — India INX Scale-Up</div>
+      <div class="hb-text">India INX remains a massively under-monetised asset. Expanding FII-accessible products at GIFT IFSC, growing USD-denominated contracts, and leveraging IFSCA's evolving framework could triple India INX revenue within 3 years — creating an international revenue stream that reduces domestic cyclicality.</div>
+    </div>
+    <div class="highlight-box">
+      <div class="hb-label">🤖 Recommendation 03 — AI-Powered Market Surveillance</div>
+      <div class="hb-text">SEBI is mandating AI-based surveillance across exchanges. BSE should productise its surveillance capabilities — licensing its AI infrastructure to smaller exchanges globally. This creates a high-margin, recurring software revenue stream with near-zero marginal cost.</div>
+    </div>
+    <div class="highlight-box">
+      <div class="hb-label">🏘️ Recommendation 04 — Tier 2/3 Retail Deepening</div>
+      <div class="hb-text">With 200 million-plus Indians investible but unserved, BSE's StAR MF regional agent network must expand into Bharat. Partnering with Jan Dhan infrastructure, Common Service Centres, and regional cooperative banks could add 5+ crore new MF investors within BSE's ecosystem in 3 years.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VERDICT -->
+<section id="verdict">
+  <div class="section" style="padding-bottom:0;">
+    <div class="verdict-badge">📊 Analyst Recommendation</div>
+    <div class="verdict-main">BUY — With<br><span class="accent">Valuation Caution</span></div>
+    <p class="verdict-sub">BSE Ltd is the structural beneficiary of India's capital market deepening story. Its 12-quarter earnings streak, expanding EBITDA margins, and regulatory tailwinds make it a compelling long-term compounder. However, at 67× trailing P/E and 27× book, the margin of safety for near-term investors is narrow. Accumulate on dips toward the ₹2,800–3,000 range for a 3-year horizon target of ₹5,000+.</p>
+    <div class="verdict-metrics">
+      <div class="vm"><div class="vm-label">Price (17 Apr 2026)</div><div class="vm-val">₹3,531</div></div>
+      <div class="vm"><div class="vm-label">ATH</div><div class="vm-val">₹3,469</div></div>
+      <div class="vm"><div class="vm-label">Market Cap</div><div class="vm-val">₹1.44L Cr</div></div>
+      <div class="vm"><div class="vm-label">1Y Return</div><div class="vm-val">+74%</div></div>
+      <div class="vm"><div class="vm-label">Risk Profile</div><div class="vm-val">Medium</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="foot-brand">BSE LIMITED ◆ EQUITY RESEARCH</div>
+    <div class="foot-meta">
+      BSH24EM05 — Financial Planning Report — SY B.Tech AIML-A — BFE-4<br>
+      PCCOE, Nigdi, Pune — AY 2025–26
+    </div>
+  </div>
+  <div class="foot-team">
+    <div class="ft-label">Research Team</div>
+    <div class="ft-names">Soham B. Zagare · Nitya Gajarmal · Sanika Gosavi</div>
+    <div class="ft-ids">124B1C167 · 124B1C170 · 124B1C176</div>
+  </div>
+  <div class="disclaimer">
+    This report is prepared for academic purposes only. All data sourced from BSE filings, SEBI disclosures, Screener.in, INDmoney, Investing.com, and MarketsMojo as of April 2026. Not investment advice.
+  </div>
+</footer>
+
+<script>
+// TICKER
+const tickerData = [
+  { sym: 'BSE', price: '₹3,531.50', chg: '+2.46%', up: true },
+  { sym: 'ATH', price: '₹3,468.80', chg: '17 Apr 2026', up: true },
+  { sym: 'MARKET CAP', price: '₹1,43,838 Cr', chg: '+78.6% YoY', up: true },
+  { sym: 'SENSEX', price: '79,218', chg: '+1.62%', up: true },
+  { sym: 'BSE PAT TTM', price: '₹2,185 Cr', chg: '+173% YoY', up: true },
+  { sym: 'EPS TTM', price: '₹52.82', chg: '12 consec. quarters ↑', up: true },
+  { sym: 'STAR MF SHARE', price: '89%', chg: '21 Cr txns/qtr', up: true },
+  { sym: 'REVENUE TTM', price: '₹4,117 Cr', chg: '+59% YoY', up: true },
+  { sym: 'EBITDA MARGIN', price: '58.2%', chg: 'Record High', up: true },
+  { sym: 'ROE', price: '34.6%', chg: '+16.6pp YoY', up: true },
+  { sym: '52W LOW', price: '₹1,860', chg: '+86% from Low', up: true },
+  { sym: 'NEXT EARNINGS', price: 'May 07 2026', chg: 'Q4 FY26', up: true },
+];
+const track = document.getElementById('tickerTrack');
+[...tickerData, ...tickerData].forEach(t => {
+  const el = document.createElement('div');
+  el.className = 'tick';
+  el.innerHTML = `<span class="sym">${t.sym}</span><span>${t.price}</span><span class="${t.up?'up':'dn'}">${t.chg}</span>`;
+  track.appendChild(el);
+});
+
+// FADE IN OBSERVER
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      e.target.querySelectorAll('.progress-fill').forEach(bar => {
+        bar.style.width = (bar.dataset.width || 0) + '%';
+      });
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+// CHART DEFAULTS
+const chartDefaults = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: { legend: { display: false } },
+  scales: {
+    x: {
+      grid: { color: 'rgba(180,134,11,0.08)', lineWidth: 0.5 },
+      ticks: { color: '#9AA5BB', font: { family: 'DM Mono', size: 10 } },
+      border: { display: false }
+    },
+    y: {
+      grid: { color: 'rgba(180,134,11,0.08)', lineWidth: 0.5 },
+      ticks: { color: '#9AA5BB', font: { family: 'DM Mono', size: 10 } },
+      border: { display: false }
+    }
+  }
+};
+
+// REVENUE CHART
+new Chart(document.getElementById('revenueChart'), {
+  type: 'line',
+  data: {
+    labels: ['FY22', 'FY23', 'FY24', 'FY25', 'FY26*'],
+    datasets: [{
+      data: [1006, 1253, 1700, 2609, 4117],
+      borderColor: '#B8860B',
+      backgroundColor: 'rgba(184,134,11,0.07)',
+      borderWidth: 2.5,
+      pointRadius: 5,
+      pointBackgroundColor: '#D4A017',
+      pointBorderColor: '#F5F0E8',
+      pointBorderWidth: 2,
+      fill: true,
+      tension: 0.45
+    }]
+  },
+  options: { ...chartDefaults, plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => '₹' + c.raw + ' Cr' } } } }
+});
+
+// PAT CHART
+new Chart(document.getElementById('patChart'), {
+  type: 'bar',
+  data: {
+    labels: ['FY22', 'FY23', 'FY24', 'FY25', 'FY26*'],
+    datasets: [
+      {
+        label: 'PAT',
+        data: [105, 188, 330, 820, 2185],
+        backgroundColor: ['rgba(184,134,11,0.35)','rgba(184,134,11,0.5)','rgba(184,134,11,0.65)','rgba(184,134,11,0.8)','rgba(184,134,11,0.95)'],
+        borderColor: '#B8860B',
+        borderWidth: 1,
+        borderRadius: 3
+      },
+      {
+        label: 'EBITDA',
+        data: [220, 310, 530, 980, 1850],
+        backgroundColor: ['rgba(44,53,80,0.3)','rgba(44,53,80,0.4)','rgba(44,53,80,0.5)','rgba(44,53,80,0.65)','rgba(44,53,80,0.8)'],
+        borderColor: '#3D4F72',
+        borderWidth: 1,
+        borderRadius: 3
+      }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    plugins: {
+      legend: { display: true, position: 'top', labels: { color: '#9AA5BB', font: { family: 'DM Mono', size: 10 }, boxWidth: 10, padding: 14 } },
+      tooltip: { callbacks: { label: c => c.dataset.label + ': ₹' + c.raw + ' Cr' } }
+    }
+  }
+});
+
+// MARGIN CHART
+new Chart(document.getElementById('marginChart'), {
+  type: 'line',
+  data: {
+    labels: ['FY22', 'FY23', 'FY24', 'FY25', 'FY26*'],
+    datasets: [
+      {
+        label: 'EBITDA Margin %',
+        data: [21.9, 24.7, 31.2, 37.6, 58.2],
+        borderColor: '#B8860B',
+        backgroundColor: 'transparent',
+        borderWidth: 2.5,
+        pointRadius: 5,
+        pointBackgroundColor: '#D4A017',
+        tension: 0.45
+      },
+      {
+        label: 'ROE %',
+        data: [7, 12, 18, 28, 34.6],
+        borderColor: '#1B6B3A',
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        borderDash: [5, 3],
+        pointRadius: 4,
+        pointBackgroundColor: '#1B6B3A',
+        tension: 0.45
+      }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    plugins: {
+      legend: { display: true, position: 'top', labels: { color: '#9AA5BB', font: { size: 10 }, boxWidth: 10, padding: 14 } }
+    }
+  }
+});
+
+// STOCK PRICE TREND (simulated from disclosed data)
+new Chart(document.getElementById('stockChart'), {
+  type: 'line',
+  data: {
+    labels: ['Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26', 'Feb 26', 'Mar 26', 'Apr 26'],
+    datasets: [{
+      data: [1906, 2120, 2250, 2380, 2520, 2650, 2800, 2591, 2680, 2900, 2768, 3303, 3468],
+      borderColor: '#B8860B',
+      backgroundColor: 'rgba(184,134,11,0.06)',
+      borderWidth: 2.5,
+      pointRadius: [3,3,3,3,3,3,3,3,3,3,3,4,6],
+      pointBackgroundColor: (ctx) => ctx.dataIndex === 12 ? '#D4A017' : '#B8860B',
+      pointBorderColor: '#F5F0E8',
+      pointBorderWidth: 2,
+      fill: true,
+      tension: 0.45
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => '₹' + c.raw.toLocaleString() } }
+    },
+    scales: {
+      x: { ...chartDefaults.scales.x },
+      y: { ...chartDefaults.scales.y, ticks: { ...chartDefaults.scales.y.ticks, callback: v => '₹' + v.toLocaleString() } }
+    }
+  }
+});
+
+// REVENUE MIX DOUGHNUT
+new Chart(document.getElementById('revenueBreakChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['StAR MF Platform', 'Derivatives (SENSEX)', 'Transaction Fees (Cash)', 'Data & Licensing', 'Treasury Income', 'Co-location & Others'],
+    datasets: [{
+      data: [28, 22, 18, 12, 12, 8],
+      backgroundColor: ['#B8860B','#2C3550','#1B6B3A','#8B0000','#3D6AB0','#9AA5BB'],
+      borderColor: '#F5F0E8',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: 'bottom', labels: { color: '#3D4F72', font: { size: 9 }, boxWidth: 10, padding: 10 } },
+      tooltip: { callbacks: { label: c => c.label + ': ' + c.raw + '%' } }
+    },
+    cutout: '65%'
+  }
+});
+
+// MARKET SHARE
+new Chart(document.getElementById('mktShareChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Cash Equity', 'F&O Volume', 'MF Platform', 'SME Listings'],
+    datasets: [
+      {
+        label: 'BSE',
+        data: [40, 6, 89, 70],
+        backgroundColor: 'rgba(184,134,11,0.7)',
+        borderColor: '#B8860B',
+        borderWidth: 1,
+        borderRadius: 3
+      },
+      {
+        label: 'NSE',
+        data: [60, 94, 11, 30],
+        backgroundColor: 'rgba(44,53,80,0.55)',
+        borderColor: '#3D4F72',
+        borderWidth: 1,
+        borderRadius: 3
+      }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      x: { ...chartDefaults.scales.x },
+      y: { ...chartDefaults.scales.y, max: 100, ticks: { ...chartDefaults.scales.y.ticks, callback: v => v + '%' } }
+    },
+    plugins: {
+      legend: { display: true, position: 'top', labels: { color: '#9AA5BB', font: { size: 10 }, boxWidth: 10, padding: 12 } },
+      tooltip: { callbacks: { label: c => c.dataset.label + ': ' + c.raw + '%' } }
+    }
+  }
+});
+</script>
+</body>
+</html>
